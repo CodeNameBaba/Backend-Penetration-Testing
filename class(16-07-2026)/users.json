@@ -1,0 +1,37 @@
+{
+    "shahwar": {
+        "password": "abcd12345",
+        "age": 20,
+        "marks": 550,
+        "blood group": "O positive",
+        "balance": 420000
+    },
+    "kazim": {
+        "password": "stuvwxyz",
+        "age": 19,
+        "balance": 30000
+    },
+    "baba": {
+        "password": "baba",
+        "balance": 0
+    },
+    "asad": {
+        "password": "baba",
+        "age": 20,
+        "balance": 0
+    },
+    "ahmed": {
+        "password": "0786",
+        "age": 18,
+        "blood group": "ab positive",
+        "balance": 50000
+    },
+    "affan": {
+        "password": "9876",
+        "balance": 0
+    },
+    "yash ": {
+        "password": "4455",
+        "balance": 0
+    }
+}
