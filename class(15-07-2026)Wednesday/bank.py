@@ -1,4 +1,4 @@
-import main as baba
+import bank as baba
 import json
 
 with open("users.json", "r") as file:

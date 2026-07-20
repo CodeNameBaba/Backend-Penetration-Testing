@@ -1,10 +1,10 @@
 {
     "shahwar": {
-        "password": "abcd12345",
+        "password": "321786",
         "age": 20,
         "marks": 550,
         "blood group": "O positive",
-        "balance": 420000
+        "balance": 399001
     },
     "kazim": {
         "password": "stuvwxyz",
@@ -13,7 +13,7 @@
     },
     "baba": {
         "password": "baba",
-        "balance": 0
+        "balance": 20999
     },
     "asad": {
         "password": "baba",
@@ -33,5 +33,8 @@
     "yash ": {
         "password": "4455",
         "balance": 0
+    },
+    "john": {
+        "password": "12345"
     }
 }

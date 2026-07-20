@@ -7,6 +7,14 @@ import json
 with open("users.json", "r") as file:
     users = json.load(file)
 
+def save(users):
+    with open("users.json", "w") as file:
+        json.dump(users,file, indent=4)
+
+def load(users):
+    with open("users.json", "r") as file:
+        return json.load(file)
+    
 
 #Login function that takes users.json and returns username
 def login(users):
@@ -15,7 +23,7 @@ def login(users):
 
     if username not in users or password != users[username]["password"]:
         print("Invalid Username or password...")
-        return
+        return False
     else:
         print("Welcome", username)
         return username 
@@ -36,9 +44,8 @@ def signUp(users):
                     "password": password
                 }
                 
-                with open("users.json", "w") as file:
-                    json.dump(users, file, indent=4)
-                    print("Account Created Succesfully...")
+                save(users)
+                
                 return username
                 break
             else: 
@@ -48,10 +55,10 @@ def transfer(users, username):
     To = input("Who do you want to transfer: ").lower()
     if To not in users:
         print("Username Does Not Exists...")
-        return
+        return False
     elif To == username:
         print("You Cannot Transfer To Yourself...")
-        return
+        return False
     else:
         print("You Want to transfer to", To)
         confirm = input("Please Type confirm to confirm: ").lower()
@@ -59,18 +66,29 @@ def transfer(users, username):
             amount = int(input("Please Enter The Amount: "))
             if amount > users[username]["balance"]:
                 print("Insufficient Balance!")
-                return
+                return False
             elif amount <= 0:
                 print("Invalid Amount...")
+                return False
             else:
                 users[username]["balance"] -= amount
                 users[To]["balance"] += amount
-                with open("users.json", "w") as file:
-                    json.dump(users, file, indent=4)
+                save(users)
                 print("Tranferred Successfully...\n Your Current Balance IS: ", users[username]["balance"])
+                return True
+        else:
+            print("Okay Terminating Transaction...")
+            return False
 
+def resetPassword(users, username):
+    while True:
+        password = input("Please Enter New Password: ")
+        conPass = input("Please Confirm Password: ")
 
-
-# username = login(users)
-
-# transfer(users, username)
+        if password == conPass:
+            users[username]["password"] = password
+            save(users)
+            print("Password Changed Successfully...")
+            break
+        else:
+            print("The Password Does Not Match...")
