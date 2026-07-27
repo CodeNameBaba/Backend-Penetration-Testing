@@ -39,6 +39,16 @@ class Developer(Employee):
     def Working(self):
         print(f"{self.name} is writting code in {self.language}")
 
+
+class Salesman(Employee):
+    def __init__(self, name, salary, position, calling):
+        super().__init__(name, salary, position)
+        self.calling = calling
+
+    def Working(self):
+        print(f"{self.name} is calling {self.calling}")
+
+
 # Creating An Object 
 
 employee1 = Employee("Shrut", 12000, "Developer")
@@ -50,7 +60,7 @@ print(employee2.position) #Sales Manager
 employee1.checkin("12pm") #Shrut Checked in at 12pm
 employee2.checkin("1 Pm") #Nitin Checked in at 1 Pm
 
-#Creating A Constructor of the child Class
+#Creating An Instance of the child Class
 developer1 = Developer("Baba", 12000, "Developer", "Python")
 
 #Method of child Class
@@ -62,4 +72,7 @@ developer1.checkin("7am")
 # employee1.Working()     --This Will Give An Error As The Parent Class Cannot Use A Method Initialised By A Child Class
 
 
+# Method OF Another Child Class
+salesman1 = Salesman("Nitin", 10000, "Salesman", "Kazim")
 
+salesman1.Working()
