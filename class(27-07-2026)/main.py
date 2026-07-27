@@ -50,9 +50,16 @@ print(employee2.position) #Sales Manager
 employee1.checkin("12pm") #Shrut Checked in at 12pm
 employee2.checkin("1 Pm") #Nitin Checked in at 1 Pm
 
+#Creating A Constructor of the child Class
 developer1 = Developer("Baba", 12000, "Developer", "Python")
 
+#Method of child Class
 developer1.Working()
+
+#Method of parent class being inherited by child
 developer1.checkin("7am")
+
+# employee1.Working()     --This Will Give An Error As The Parent Class Cannot Use A Method Initialised By A Child Class
+
 
 
