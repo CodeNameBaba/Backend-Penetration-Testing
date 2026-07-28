@@ -1,94 +1,82 @@
-#15/07/2026
+# ==========================================
+# FILE: main.py (The User Interface)
+# ==========================================
+import bank as m
+import time
+import os
 
-import json
+# Step 1: Use our helper function to load the data right away
+users = m.load()
 
-# Add Users.json into a variable u sers
+print("Welcome to Vijay Balya Bank")
 
-with open("users.json", "r") as file:
-    users = json.load(file)
-
-def save(users):
-    with open("users.json", "w") as file:
-        json.dump(users,file, indent=4)
-
-def load(users):
-    with open("users.json", "r") as file:
-        return json.load(file)
+# ==========================================
+# THE LOBBY (Login / Sign Up Loop)
+# ==========================================
+while True:
+    print("\nTo Login Press 1\nTo SignUp Press 2")
     
-
-#Login function that takes users.json and returns username
-def login(users):
-    username = input("Enter Your Username: ").lower()
-    password = input("Please Enter Your Password: ")
-
-    if username not in users or password != users[username]["password"]:
-        print("Invalid Username or password...")
-        return False
+    # We use string input instead of int() to prevent crashes if they type a letter
+    x = input("Enter Here: ") 
+    
+    if x == "1":
+        # The login function either returns the username or False
+        username = m.login(users)
+        
+        if username == False:
+            print("Please Retry...")
+        else:
+            break # Success! Break out of the lobby loop.
+            
+    elif x == "2":
+        username = m.signUp(users)
+        break # Success! Break out of the lobby loop.
+        
     else:
-        print("Welcome", username)
-        return username 
+        print("[ERROR] Invalid Input...")
 
 
-# Creating A SignUp Function As Well that takes users.json in parameters and returns the username 
-def signUp(users):
-    while True:
-        username = input("Enter Your Username: ").lower()
-        if username in users:
-            print("Username Already Exists...")
-        else:
-            password = input("Please Enter Your Password: ")
-            y = input("Please Confirm Your Password: ")
+# ==========================================
+# THE ACCOUNT MENU (Transfer / Password Loop)
+# ==========================================
+# If they broke out of the first loop, they are officially logged in!
 
-            if password == y:
-                users[username] = {
-                    "password": password
-                }
-                
-                save(users)
-                
-                return username
-                break
-            else: 
-                print("Your Password Does Not Match...")
+while True:
+    print("\n--- ACCOUNT MENU ---")
+    print("To Transfer Money To Another Person Press 1")
+    print("To Change Password Press 2")
+    print("To Logout Press 3")
+    
+    choice = input("Enter Your Choice:  ")
+    
+    if choice == "1":
+        # Transfer returns True if it works, False if it fails
+        result = m.transfer(users, username)
+        
+        if result == False:
+            print("Redirecting To Previous Menu...")
+            time.sleep(1.5) # Pause the program for 1.5 seconds
+            
+            # This clears the terminal screen (Windows uses 'cls', Mac/Linux uses 'clear')
+            # It makes the app look clean and professional!
+            os.system("cls") 
+            
+        elif result == True:
+            # We don't necessarily want to break and close the app just because 
+            # they transferred money. We can just let the loop continue!
+            input("Press Enter to return to menu...")
+            os.system("cls")
 
-def transfer(users, username):
-    To = input("Who do you want to transfer: ").lower()
-    if To not in users:
-        print("Username Does Not Exists...")
-        return False
-    elif To == username:
-        print("You Cannot Transfer To Yourself...")
-        return False
+    elif choice == "2":
+        m.resetPassword(users, username)
+        input("Press Enter to return to menu...")
+        os.system("cls")
+        
+    elif choice == "3":
+        print("Logging out. Goodbye!")
+        time.sleep(1)
+        os.system("cls")
+        break # This breaks the final loop, closing the program.
+        
     else:
-        print("You Want to transfer to", To)
-        confirm = input("Please Type confirm to confirm: ").lower()
-        if confirm == "confirm":
-            amount = int(input("Please Enter The Amount: "))
-            if amount > users[username]["balance"]:
-                print("Insufficient Balance!")
-                return False
-            elif amount <= 0:
-                print("Invalid Amount...")
-                return False
-            else:
-                users[username]["balance"] -= amount
-                users[To]["balance"] += amount
-                save(users)
-                print("Tranferred Successfully...\n Your Current Balance IS: ", users[username]["balance"])
-                return True
-        else:
-            print("Okay Terminating Transaction...")
-            return False
-
-def resetPassword(users, username):
-    while True:
-        password = input("Please Enter New Password: ")
-        conPass = input("Please Confirm Password: ")
-
-        if password == conPass:
-            users[username]["password"] = password
-            save(users)
-            print("Password Changed Successfully...")
-            break
-        else:
-            print("The Password Does Not Match...")
+        print("[ERROR] Invalid Choice...")
